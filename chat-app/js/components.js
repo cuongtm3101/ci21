@@ -45,7 +45,7 @@ components.registerPage = `
                     <div class="title">Confirm Password</div>
                     <input type="password" name="cpassword" placeholder="Confirm your password">
                     <div class="error" id="cpassword-error-message"></div>                             
-                    <input type="submit" value="Login">
+                    <input type="submit" value="Register">
                 </div>                    
             </form>
             <div id="sign-up">

@@ -50,5 +50,8 @@ controller.validateRegisterInfo = (firstName, lastName, email, password, cpasswo
     }else{
         view.renderErrorMessage('cpassword-error-message', '');
     }
-    //check database
+
+    if (firstName && lastName && email && password && cpassword && cpassword === password) {
+        model.createNewUser(firstName, lastName, email, password);
+    }
 }

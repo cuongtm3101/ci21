@@ -65,3 +65,14 @@ view.renderErrorMessage = (id, text) => {
         errorMessage.innerText = text;
     }
 }
+
+view.clearRegisterInfo = () => {
+    const registerForm = document.getElementById('login-form');
+    if (registerForm) {
+        registerForm.fname.value = '';
+        registerForm.lname.value = '';
+        registerForm.email.value = '';
+        registerForm.password.value = '';
+        registerForm.cpassword.value = '';
+    }
+}
