@@ -61,14 +61,20 @@ input[type="submit"]{
 }
 
 #sign-up{
+    width: 308px;
     text-align: center;
     cursor: pointer;
+    margin: auto;
 }
 #sign-up p{
-    display: inline-block;
     border: 1px solid #d8dee2;
     margin-top: 15px;
-    padding: 15px 27px;
+    padding: 15px;
     border-radius: 10px;
     font-size: 15px; 
+}
+#sign-up div {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 12px;
 }

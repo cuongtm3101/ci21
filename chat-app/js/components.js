@@ -17,7 +17,8 @@ components.loginPage = `
                 </div>                    
             </form>
             <div id="sign-up">
-                <p id = 'register-link'>New to New Wave? Create an account</p>
+                <p id = 'register-link'>New to New Wave? Create an account</p>                
+                <div id = 'reset-password-link'>Forget your password? Click here</div>
             </div>
         </div>
     </div>
@@ -53,4 +54,27 @@ components.registerPage = `
             </div>
         </div>
     </div>
+`;
+components.resetPasswordPage = `
+    <div id="login-screen">
+        <div id="login-form-container">
+            <img class="logo" src="../images/logo.png" alt="logo">
+            <h2 class="header">Reset your password</h2>
+            <form id="login-form">
+                <div class="form-first-part">                    
+                    <div class="title">Email address</div>
+                    <input type="text" name="email" placeholder="Please enter your email">
+                    <div class="error" id="email-error-message"></div>
+                                                 
+                    <input type="submit" value="Reset Password">
+                </div>                    
+            </form>
+            <div id="sign-up">
+                <p id="back-link">Already have an account? Login here</p>
+            </div>
+        </div>
+    </div>
+`;
+components.chatPage = `
+    <div id = "welcome">Login Success</div>
 `;

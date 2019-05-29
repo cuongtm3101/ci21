@@ -30,6 +30,13 @@ view.setActiveScreen = (screenName) => {
                     view.setActiveScreen('registerPage');
                 });
             }
+            const resetPasswordLink = document.getElementById('reset-password-link');
+            if (resetPasswordLink) {
+                resetPasswordLink.addEventListener('click', () => {
+                    console.log('haha');
+                    view.setActiveScreen('resetPasswordPage');
+                });
+            }
             break;
         case ('registerPage'):
             if (app) {
@@ -56,6 +63,38 @@ view.setActiveScreen = (screenName) => {
                 });
             }
             break;
+        case ('chatPage'):
+            if (app) {
+                app.innerHTML = components.chatPage;
+            }
+            const welcomeElement = document.getElementById('welcome');
+            if (welcomeElement) {
+                welcomeElement.innerText = `Welcome back ${model.loginUser.email}`;
+            }
+            break;
+
+        case ('resetPasswordPage'):
+            if (app) {
+                app.innerHTML = components.resetPasswordPage;
+            }
+            const resetPasswordForm = document.getElementById('login-form');
+            if (resetPasswordForm) {
+                resetPasswordForm.addEventListener('submit', (event) => {
+
+                    event.preventDefault();                    
+                    const email = resetPasswordForm.email.value;
+                    controller.validateResetEmail(email);
+                })
+            }
+            const backLink = document.getElementById('back-link');
+            if (backLink) {
+                backLink.addEventListener('click', (event) => {
+                    view.setActiveScreen('loginPage');
+                    event.preventDefault();
+                })
+            }                
+            break;
+
     }
 }
 
@@ -74,5 +113,11 @@ view.clearRegisterInfo = () => {
         registerForm.email.value = '';
         registerForm.password.value = '';
         registerForm.cpassword.value = '';
+    }
+}
+view.clearResetInfo = () => {
+    const resetForm = document.getElementById('login-form');
+    if (resetForm) {
+        resetForm.email.value = '';
     }
 }

@@ -16,6 +16,9 @@ controller.validateLoginInfo = (email, password) => {
         view.renderErrorMessage('password-error-message', '');    
     }
     //check database
+    if (email && password) {
+        model.loginUser(email, password);
+    }
 }
 controller.validateRegisterInfo = (firstName, lastName, email, password, cpassword) => {
     const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -55,3 +58,18 @@ controller.validateRegisterInfo = (firstName, lastName, email, password, cpasswo
         model.createNewUser(firstName, lastName, email, password);
     }
 }
+
+controller.validateResetEmail = (email) => {
+    const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!email) {        
+        view.renderErrorMessage('email-error-message', 'Please enter your email');
+    }else if (!emailRegex.test(email)){        
+        view.renderErrorMessage('email-error-message', 'Invalid email');
+    }else{        
+        view.renderErrorMessage('email-error-message', '');
+    }
+
+    if (email) {
+        model.resetPassword(email);
+    }
+};
