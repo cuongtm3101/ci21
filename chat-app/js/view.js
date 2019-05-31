@@ -71,6 +71,24 @@ view.setActiveScreen = (screenName) => {
             if (welcomeElement) {
                 welcomeElement.innerText = `Welcome back ${model.loginUser.email}`;
             }
+            const inputForm = document.querySelector('.input-form');
+            if (inputForm) {
+                inputForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    const inputText = document.querySelector('.message');
+                    if (inputText) {
+                        let text = inputText.value;
+                        const messageContainer = document.querySelector('.message-container');
+                        if (messageContainer) {
+                            view.sendMessage('', text);                            
+                            view.sendMessage('Mindx Botchat', text);
+                            inputText.value = '';
+                        }
+                    }
+                })
+            }
+
+
             break;
 
         case ('resetPasswordPage'):
@@ -119,5 +137,32 @@ view.clearResetInfo = () => {
     const resetForm = document.getElementById('login-form');
     if (resetForm) {
         resetForm.email.value = '';
+    }
+}
+
+view.sendMessage = (sender, messageContent) => {
+    const messageContainer = document.querySelector('.message-container');
+    if (messageContainer) {
+        const messageItem = document.createElement('div');
+        const senderElement = document.createElement('div');
+        const messageContentElement = document.createElement('div');
+
+        messageItem.classList.add('message-item');
+        if (sender) {
+            messageItem.classList.add('other-message');
+        }else{
+            messageItem.classList.add('my-message');
+        }
+        senderElement.classList.add('sender');
+        if (sender) {
+            senderElement.innerText = sender;
+        }
+        messageContentElement.classList.add('message-content');
+        messageContentElement.innerText = messageContent;
+
+        messageItem.appendChild(senderElement);
+        messageItem.appendChild(messageContentElement);
+        messageContainer.appendChild(messageItem);
+
     }
 }

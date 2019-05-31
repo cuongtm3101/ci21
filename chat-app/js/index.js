@@ -1,6 +1,5 @@
 window.onload = () => {
     
-    view.setActiveScreen('loginPage');
     const firebaseConfig = {
         apiKey: "AIzaSyBGZ5uBbC-IyjooJCu2y1nh6ppW1bb-XgE",
         authDomain: "ci21-chatapp.firebaseapp.com",
@@ -14,4 +13,6 @@ window.onload = () => {
     firebase.initializeApp(firebaseConfig);
 
     // console.log(firebase);
+    
+    view.setActiveScreen('loginPage');
 }

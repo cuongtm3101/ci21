@@ -76,5 +76,21 @@ components.resetPasswordPage = `
     </div>
 `;
 components.chatPage = `
-    <div id = "welcome">Login Success</div>
+<div id="chat-screen" class="chat-screen">
+<div class="header">Mindx Chat</div>
+<div class="chat-container">
+    <div class="conversation-name">
+        <h3>Chaturbate conversation</h3>
+    </div>
+    <div class="message-container">
+        
+    </div>
+    <div class="message-form-container">
+        <form class="input-form">
+            <input type="text" name="message" class="message" placeholder="Type a message ...">
+            <input type="submit" name="submit" class="btn" value="Send">        
+        </form>
+    </div>
+</div>
+</div>
 `;
