@@ -12,8 +12,8 @@ window.onload = () => {
             element.appendChild(mainText);
             element.appendChild(deleteBtn);
             const mainContent = document.querySelector('.main-content');
-            const regex = /^\s*$/ ;
-            if (mainContent && todoElement && !regex.test(todoElement)) {
+            const blankTextRegex = /^\s*$/ ;
+            if (mainContent && todoElement && !blankTextRegex.test(todoElement)) {
                 mainText.innerText = firstLetterToUpperCase(todoElement);                
                 mainContent.appendChild(element);
             }
@@ -54,6 +54,4 @@ window.onload = () => {
             return newStr;   
         }
     }
-
-
 }
