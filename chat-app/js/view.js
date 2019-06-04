@@ -67,6 +67,8 @@ view.setActiveScreen = (screenName) => {
             if (app) {
                 app.innerHTML = components.chatPage;
             }
+            // Load all conversation
+            model.loadConversation();
             const welcomeElement = document.getElementById('welcome');
             if (welcomeElement) {
                 welcomeElement.innerText = `Welcome back ${model.loginUser.email}`;
@@ -79,9 +81,11 @@ view.setActiveScreen = (screenName) => {
                     if (inputText) {
                         let text = inputText.value;
                         const messageContainer = document.querySelector('.message-container');
-                        if (messageContainer) {
-                            view.sendMessage('', text);                            
-                            view.sendMessage('Mindx Botchat', text);
+                        if (messageContainer && text) {
+                            //Save to database
+                            model.saveMessage(text);
+                            // view.sendMessage('', text);                            
+                            // view.sendMessage('Mindx Botchat', text);
                             inputText.value = '';
                         }
                     }
@@ -164,5 +168,6 @@ view.sendMessage = (sender, messageContent) => {
         messageItem.appendChild(messageContentElement);
         messageContainer.appendChild(messageItem);
 
+        messageContainer.scrollTop = messageContainer.scrollHeight;
     }
 }

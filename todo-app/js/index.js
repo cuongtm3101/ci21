@@ -34,6 +34,41 @@ window.onload = () => {
         })
     }
 
+
+
+
+
+
+    const db_collection = firebase.firestore().collection('todoapp');
+
+    db_collection.onSnapshot((snapshot) => {
+        snapshot.forEach((element) => {
+            console.log(element.data());
+        })
+    })
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //Reusable functions
     const createComponent = (el, cl) => {
         const element = document.createElement(el);
