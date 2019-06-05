@@ -1,75 +1,97 @@
 window.onload = () => {
+    const db = firebase.firestore();
+    const db_collection = db.collection("todoapp").doc("b7uXH3ZXfJyP2JupaJuC");
+    const todoForm = document.getElementById('todo-form');    
+    const mainContent = document.querySelector('.main-content');    
+    const arrTodo = [];
+    //load task
+    const mainContentArr = Array.from(mainContent.children);
+    if (todoForm && mainContentArr.length === 0) {
+        db_collection.get()
+        .then((doc) => {
+            if (doc.exists) {
+                const arr = doc.data().todo;
+                arr.forEach(element => {
+                    let loadContent = element.content;
+                    arrTodo.push(element);
+                    const loadTodo = createNewTodo(loadContent);    
+                    mainContent.appendChild(loadTodo);
+                });
+                if (mainContent) {
+                    const mainContentList = Array.from(mainContent.children);
+                    arr.forEach((element, index) => {
+                        if (element.done === true) {
+                            mainContentList[index].children[0].classList.add('done-task');
+                        }
+                    });
+                }
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        })
+        .catch((error) => {
+            console.log("Error getting document:", error);
+        });
+    }
+    
     //Add task to list
-    const todoForm = document.getElementById('todo-form');
     if (todoForm) {
         todoForm.addEventListener('submit', (event) => {
-            event.preventDefault();
+            event.preventDefault();                
             const todoElement = todoForm.list.value;
-            const element = createComponent('div', 'element');
-            const mainText = createComponent('div', 'main-text');
-            const deleteBtn = createComponent('div', 'delete-btn');
-            deleteBtn.innerHTML = '<ion-icon name="trash"></ion-icon>';
-            element.appendChild(mainText);
-            element.appendChild(deleteBtn);
-            const mainContent = document.querySelector('.main-content');
-            const blankTextRegex = /^\s*$/ ;
+            const blankTextRegex = /^\s*$/;
             if (mainContent && todoElement && !blankTextRegex.test(todoElement)) {
-                mainText.innerText = firstLetterToUpperCase(todoElement);                
+                const element = createNewTodo(todoElement);  
+                db_collection.update({
+                    todo: firebase.firestore.FieldValue.arrayUnion({
+                        content: todoElement,
+                        createdAt: new Date(),
+                        done: false
+                    })
+                });                                   
+                console.log('add todo');              
                 mainContent.appendChild(element);
-            }
+            }            
             todoForm.list.value = '';
         })
     }
-    const mainContent = document.querySelector('.main-content'); 
+
     if (mainContent) {                
         mainContent.addEventListener('click', (event) => {
             //Finish Task
             if (event.target.classList.contains('main-text')) {
-                event.target.classList.toggle('done-task');                
+                const doneContent = event.target.textContent;
+                arrTodo.forEach((element, index) => {
+                    if (element.content.toLowerCase() === doneContent.toLowerCase()) {
+                        if (element.done === false) {
+                            event.target.classList.add('done-task');
+                            element.done = true;
+                        }else{
+                            event.target.classList.remove('done-task');
+                            element.done = false;
+                        }
+                    }
+                });
+                db_collection.update({todo: arrTodo});                
             }
             //Delete Task
             if (event.target.parentElement.classList.contains('delete-btn')) {
+                const deleteContent = event.target.parentElement.parentElement.textContent;
+                arrTodo.forEach((element, index) => {
+                    if (element.content.toLowerCase() === deleteContent.toLowerCase()) {
+                        arrTodo.splice(index, 1);
+                    }
+                });
+                db_collection.update({todo: arrTodo});
                 event.target.parentElement.parentElement.remove();                
             }
         })
     }
 
-
-
-
-
-
-    const db_collection = firebase.firestore().collection('todoapp');
-
-    db_collection.onSnapshot((snapshot) => {
-        snapshot.forEach((element) => {
-            console.log(element.data());
-        })
-    })
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //Reusable functions
+
+    //create component
     const createComponent = (el, cl) => {
         const element = document.createElement(el);
         if (element) {
@@ -77,7 +99,7 @@ window.onload = () => {
         }
         return element;
     }
-
+    //first letter touppercase
     const firstLetterToUpperCase = (str) => {
         if (str) {         
             let newArr = str.split('');
@@ -88,5 +110,16 @@ window.onload = () => {
             });
             return newStr;   
         }
+    }   
+    //create new todo
+    const createNewTodo = (text) => {
+        const element = createComponent('div', 'element');
+        const mainText = createComponent('div', 'main-text');
+        const deleteBtn = createComponent('div', 'delete-btn');
+        deleteBtn.innerHTML = '<ion-icon name="trash"></ion-icon>';
+        element.appendChild(mainText);
+        element.appendChild(deleteBtn);
+        mainText.innerText = firstLetterToUpperCase(text);        
+        return element;
     }
 }
